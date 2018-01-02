@@ -1,5 +1,6 @@
 package entities.machines;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
@@ -82,7 +83,9 @@ public class ArcTurningPoint extends TurningPoint{
 	@Override
 	public void render(Graphics g) {
 		// TODO Auto-generated method stub
+		g.setColor(Color.RED);
 		((Graphics2D) g).draw(leftCurve);
+		g.setColor(Color.BLUE);
 		((Graphics2D) g).draw(rightCurve);
 	}
 
