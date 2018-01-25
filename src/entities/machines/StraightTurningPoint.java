@@ -2,6 +2,8 @@ package entities.machines;
 
 import java.awt.Color;
 import java.awt.Graphics;
+
+import direction.Direction;
 import path.Point;
 
 import path.Line;
@@ -9,8 +11,10 @@ import path.Line;
 public class StraightTurningPoint extends TurningPoint{
 	protected Line lineLeft;
 	protected Line lineRight;
-	public StraightTurningPoint(Point center, int radius, Line lineLeft, Line lineRight) {
+	public StraightTurningPoint(Point start, Point center, int radius, Direction d, Line lineLeft, Line lineRight) {
 		super();
+		Start = start;
+		direction = d;
 		Center = center;
 		Radius = radius;
 		this.lineLeft = lineLeft;

@@ -9,6 +9,10 @@ public class Direction {
 		this.x = x;
 		this.y = y;
 	}
+	public void setDirection(Direction d){
+		this.x = d.getX();
+		this.y = d.getY();
+	}
 	public void turn(double d){
 		double rx = (this.x * Math.cos(d)) - (this.y * Math.sin(d));
 	    double ry = (this.x * Math.sin(d)) + (this.y * Math.cos(d));

@@ -1,6 +1,8 @@
 package entities.machines;
 
 import java.awt.Graphics;
+
+import direction.Direction;
 import path.Point;
 
 import path.Line;
@@ -9,7 +11,8 @@ public abstract class TurningPoint {
 	public static final int DEFAULT_RADIUS = 20; 
 	protected Point Center;
 	protected int Radius; 
-	
+	protected Point Start;
+	protected Direction direction;
 	public boolean hasCame(float x, float y){
 		if((x - Center.getX())*(x - Center.getX())+(y - Center.getY())*(y - Center.getY()) < DEFAULT_RADIUS*DEFAULT_RADIUS)
 			return true;
@@ -18,4 +21,11 @@ public abstract class TurningPoint {
 	public abstract double getDeviation(float x, float y);
 
 	public abstract void render(Graphics g);
+	public Point getStart() {
+		return Start;
+	}
+	public Direction getDirection() {
+		return direction;
+	}
+	
 }

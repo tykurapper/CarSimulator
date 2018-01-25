@@ -11,9 +11,11 @@ import direction.Direction;
 import gfx.Assets;
 import myFuzzy.Steering;
 import path.Line;
+import path.Point;
 
 public class Car extends Machine{
 	
+	private Direction direction;
 	public static double SLOW = 0.5;
 	public static double LITTLE_SLOW = 0.75;
 	public static double NORMAL = 1;
@@ -23,13 +25,14 @@ public class Car extends Machine{
 	}
 	private Steering steer;
 	private static final int size = 30;
-	public Car(float x, float y) {
-		super(x, y);
+	public Car(Point start, Direction d) {
+		super((float)start.getX(), (float)start.getY());
+		direction = d;
 		steer = new Steering();
 		steer.setFb("steering.fcl");
 		// TODO Auto-generated constructor stub
 	}
-	private Direction direction = new Direction(1, 0);
+//	private Direction direction = new Direction(1, 0);
 	public Direction getDirection(){
 		return direction;
 	}

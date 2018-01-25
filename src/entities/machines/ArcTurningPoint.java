@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import path.Point;
 import java.awt.geom.QuadCurve2D;
 
+import direction.Direction;
 import myMath.Cubic;
 import path.Line;
 
@@ -14,8 +15,10 @@ public class ArcTurningPoint extends TurningPoint{
 	QuadCurve2D leftCurve = new QuadCurve2D.Float();
 	QuadCurve2D rightCurve = new QuadCurve2D.Float();
 
-	public ArcTurningPoint(Point center, int radius, QuadCurve2D leftC, QuadCurve2D rightC) {
+	public ArcTurningPoint(Point start, Point center, int radius, Direction d, QuadCurve2D leftC, QuadCurve2D rightC) {
 		super();
+		Start = start;
+		direction = d;
 		Center = center;
 		Radius = radius;
 		leftCurve.setCurve(leftC);
