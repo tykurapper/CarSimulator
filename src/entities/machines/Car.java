@@ -9,6 +9,7 @@ import java.util.Queue;
 
 import direction.Direction;
 import gfx.Assets;
+import myFuzzy.Speed;
 import myFuzzy.Steering;
 import path.Line;
 import path.Point;
@@ -16,20 +17,24 @@ import path.Point;
 public class Car extends Machine{
 	
 	private Direction direction;
-	public static double SLOW = 0.5;
-	public static double LITTLE_SLOW = 0.75;
-	public static double NORMAL = 1;
+	public static double SLOWER = 0.5;
+	public static double SLOW = 0.75;
+	public static double MEDIUM = 1;
 	private double speed = 1;
 	private void setSpeed(double speed){
 		this.speed = speed;
 	}
 	private Steering steer;
+	private Speed fuzzyspeed;
 	private static final int size = 30;
 	public Car(Point start, Direction d) {
 		super((float)start.getX(), (float)start.getY());
 		direction = d;
 		steer = new Steering();
 		steer.setFb("steering.fcl");
+		fuzzyspeed = new Speed();
+		fuzzyspeed.setFb("trafficlight.fcl");
+		
 		// TODO Auto-generated constructor stub
 	}
 //	private Direction direction = new Direction(1, 0);
@@ -38,19 +43,19 @@ public class Car extends Machine{
 	}
 	private void left(){
 		direction.turn(-(Math.PI / 120)); //36
-		setSpeed(LITTLE_SLOW);
+//		setSpeed(SLOW);
 	}
 	private void right(){
 		direction.turn(Math.PI / 120); //36
-		setSpeed(LITTLE_SLOW);
+//		setSpeed(LITTLE_SLOW);
 	}
 	private void hardleft(){
 		direction.turn(-(Math.PI / 12)); //24
-		setSpeed(SLOW);
+//		setSpeed(SLOW);
 	}
 	private void hardright(){
 		direction.turn(Math.PI / 12); //24
-		setSpeed(SLOW);
+//		setSpeed(SLOW);
 	}
 	private void foward(double speed){
 		x += direction.getX() * speed;
@@ -60,6 +65,9 @@ public class Car extends Machine{
 	private double steervalue = 0;
 	private double deviation;
 	private double lastvalue = 0;
+	private double myfuzzyspeed; 
+	private double lightstatus;
+	private double distance;
 	private Queue<TurningPoint> queue = new LinkedList<TurningPoint>();
 	
 	public void tick(Queue<TurningPoint> queue2) {
@@ -69,10 +77,16 @@ public class Car extends Machine{
 		if(!queue2.isEmpty()){
 			setQueue(queue2);
 			deviation = queue2.peek().getDeviation(x, y);
+			lightstatus = queue2.peek().getLightStatus();
+			distance = queue2.peek().getDistance(x, y);
+			
 //			if(steervalue!=-1)
 			lastvalue = steervalue;
 			steervalue = steer.getValue((float) deviation);
-			System.out.println(speed);
+			
+			myfuzzyspeed = fuzzyspeed.getValue((float) deviation, lightstatus, distance);
+			setSpeed(myfuzzyspeed);
+			System.out.println(myfuzzyspeed);
 //			steer(steervalue);
 			if(steervalue > 0.67)
 					hardleft();
@@ -88,7 +102,7 @@ public class Car extends Machine{
 					hardleft();
 				else if(lastvalue > 0.167)
 					hardright();
-				else setSpeed(NORMAL);
+//				else setSpeed(NORMAL);
 //					steer(0);
 			}
 			else if(-0.67 <= steervalue && steervalue < -0.167)
