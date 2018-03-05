@@ -22,7 +22,10 @@ public class Car extends Machine{
 	public static double MEDIUM = 1;
 	private double speed = 1;
 	private void setSpeed(double speed){
-		this.speed = speed;
+//		if(speed < 0.04)
+//			this.speed = 0;
+//		else 
+			this.speed = speed;
 	}
 	private Steering steer;
 	private Speed fuzzyspeed;

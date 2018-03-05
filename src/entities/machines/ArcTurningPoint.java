@@ -82,7 +82,12 @@ public class ArcTurningPoint extends TurningPoint{
 	public double getDeviation(float x, float y) {
 		return(distanceFrom(x, y, leftCurve) / distanceFrom(x, y, rightCurve));
 	}
-
+	public double getDistance(float x, float y){
+//		Point m = new Point((leftCurve.getCtrlX()+rightCurve.getCtrlX())/2, (leftCurve.getCtrlY()+rightCurve.getCtrlY())/2);
+//		double p = Math.sqrt((x - Center.getX())*(x - Center.getX())+(y - Center.getY())*(y - Center.getY())) - DEFAULT_RADIUS;
+//		double q = Math.sqrt((x - Center.getX())*(x - Center.getX())+(y - Center.getY())*(y - Center.getY())) - DEFAULT_RADIUS;
+		return Math.sqrt((x - Center.getX())*(x - Center.getX())+(y - Center.getY())*(y - Center.getY())) - DEFAULT_RADIUS;
+	}
 	@Override
 	public void render(Graphics g) {
 		// TODO Auto-generated method stub
