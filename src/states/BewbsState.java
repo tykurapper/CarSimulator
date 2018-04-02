@@ -2,6 +2,7 @@ package states;
 
 import java.awt.Graphics;
 
+import core.Handler;
 import gfx.Assets;
 
 public class BewbsState extends State{
@@ -14,7 +15,7 @@ public class BewbsState extends State{
 	}
 
 	@Override
-	public void render(Graphics g) {
+	public void render(Handler handler, Graphics g) {
 		
 		g.drawImage(Assets.bewbs, 0, 0, null);
 		

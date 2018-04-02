@@ -2,6 +2,8 @@ package states;
 
 import java.awt.Graphics;
 
+import core.Handler;
+
 public abstract class State {
 
 	private static State currentState = null;
@@ -17,6 +19,6 @@ public abstract class State {
 	//CLASS
 	public abstract void tick();
 	
-	public abstract void render(Graphics g);
+	public abstract void render(Handler handler, Graphics g);
 	
 }

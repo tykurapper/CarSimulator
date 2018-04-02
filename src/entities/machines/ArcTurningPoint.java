@@ -88,6 +88,11 @@ public class ArcTurningPoint extends TurningPoint{
 //		double q = Math.sqrt((x - Center.getX())*(x - Center.getX())+(y - Center.getY())*(y - Center.getY())) - DEFAULT_RADIUS;
 		return Math.sqrt((x - Center.getX())*(x - Center.getX())+(y - Center.getY())*(y - Center.getY())) - DEFAULT_RADIUS;
 	}
+//	public void whichHalf(float x, float y){
+//		Point point1 = new Point((leftCurve.getX1()+rightCurve.getX1())/2, (leftCurve.getY1()+rightCurve.getY1())/2);
+//		Point point2 = new Point((leftCurve.getX2()+rightCurve.getX2())/2, (leftCurve.getY2()+rightCurve.getY2())/2);	
+//		Point point3 = new Point((point1.getX()+point2.getX())/2, (point1.getY()+point2.getY())/2);
+//	}
 	@Override
 	public void render(Graphics g) {
 		// TODO Auto-generated method stub

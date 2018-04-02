@@ -1,14 +1,21 @@
 package entities.machines;
 
+import java.awt.AlphaComposite;
+import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.MouseInfo;
+import java.awt.Polygon;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import core.Handler;
 import direction.Direction;
 import gfx.Assets;
+import myFuzzy.ObstacleHandle;
 import myFuzzy.Speed;
 import myFuzzy.Steering;
 import path.Line;
@@ -17,10 +24,18 @@ import path.Point;
 public class Car extends Machine{
 	
 	private Direction direction;
-	public static double SLOWER = 0.5;
-	public static double SLOW = 0.75;
-	public static double MEDIUM = 1;
+	public static final double SLOWER = 0.5;
+	public static final double SLOW = 0.75;
+	public static final double MEDIUM = 1;
+	public static final int LOS = 113;
 	private double speed = 1;
+	private Handler handler;
+	public Handler getHandler() {
+		return handler;
+	}
+	public void setHandler(Handler handler) {
+		this.handler = handler;
+	}
 	private void setSpeed(double speed){
 //		if(speed < 0.04)
 //			this.speed = 0;
@@ -28,15 +43,18 @@ public class Car extends Machine{
 			this.speed = speed;
 	}
 	private Steering steer;
-	private Speed fuzzyspeed;
+	private Speed fuzzyspeed1;
+	private ObstacleHandle fuzzyspeed2;
 	private static final int size = 30;
 	public Car(Point start, Direction d) {
 		super((float)start.getX(), (float)start.getY());
 		direction = d;
 		steer = new Steering();
 		steer.setFb("steering.fcl");
-		fuzzyspeed = new Speed();
-		fuzzyspeed.setFb("trafficlight.fcl");
+		fuzzyspeed1 = new Speed();
+		fuzzyspeed2 = new ObstacleHandle();
+		fuzzyspeed1.setFb("trafficlight.fcl");
+		fuzzyspeed2.setFb("obstacle.fcl");
 		
 		// TODO Auto-generated constructor stub
 	}
@@ -68,29 +86,52 @@ public class Car extends Machine{
 	private double steervalue = 0;
 	private double deviation;
 	private double lastvalue = 0;
-	private double myfuzzyspeed; 
+	private double myfuzzyspeed1; 
+	private double myfuzzyspeed2;
 	private double lightstatus;
-	private double distance;
+	private double distance1;
+	private double distance2;
+	private Obstacle obstacle;
+	public void setObstacle(Obstacle obstacle) {
+		this.obstacle = obstacle;
+	}
 	private Queue<TurningPoint> queue = new LinkedList<TurningPoint>();
 	
-	public void tick(Queue<TurningPoint> queue2) {
+	public void tick(Queue<TurningPoint> queue2, Obstacle obstacle) {
 		// TODO Auto-generated method stub
 		//steervalue = steer.getValue(1);
 //		System.out.println(steervalue);
 		if(!queue2.isEmpty()){
+			setObstacle(obstacle);
 			setQueue(queue2);
+			
 			deviation = queue2.peek().getDeviation(x, y);
 			lightstatus = queue2.peek().getLightStatus();
-			distance = queue2.peek().getDistance(x, y);
+			distance1 = queue2.peek().getDistance(x, y);
+			if(obstacleInSight(obstacle)){
+				distance2 = obstacle.getDistance(x, y);
+				myfuzzyspeed2 = fuzzyspeed2.getValue((float) deviation, distance2);
+			}
+			else myfuzzyspeed2 = 1;
 			
 //			if(steervalue!=-1)
 			lastvalue = steervalue;
 			steervalue = steer.getValue((float) deviation);
 			
-			myfuzzyspeed = fuzzyspeed.getValue((float) deviation, lightstatus, distance);
-			setSpeed(myfuzzyspeed);
+			myfuzzyspeed1 = fuzzyspeed1.getValue((float) deviation, lightstatus, distance1);
+			double myfuzzyspeed = Math.min(myfuzzyspeed1, myfuzzyspeed2);
 			System.out.println(myfuzzyspeed);
+			if(myfuzzyspeed >= 0.02)
+				setSpeed(myfuzzyspeed);
+			else setSpeed(0);
+//			System.out.println(obstacleInSight(obstacle));
+//			System.out.println(distance1);
+			
+			
+//			System.out.println("(" + mouse.getX() + ", " + mouse.getY() + ")");
+			//System.out.println(fuzzyspeed.getValue((float)2.072, 0.1506, 61.19));
 //			steer(steervalue);
+			if(speed > 0){
 			if(steervalue > 0.67)
 					hardleft();
 			else if(0.167 < steervalue && steervalue <= 0.67)
@@ -115,7 +156,7 @@ public class Car extends Machine{
 					right();
 			else if(steervalue < -0.67)
 					hardright();
-
+			}
 			foward(speed);
 			if(queue2.peek().hasCame(x, y)){
 				System.out.println("Came");
@@ -126,7 +167,23 @@ public class Car extends Machine{
 			carStop();
 		}	
 	}
-
+	
+	private boolean obstacleInSight(Obstacle obstacle){
+		if(!hasObstacle())
+			return false;		
+		else {
+			int a = (int) obstacle.getX();
+			int b = (int) obstacle.getY();
+			int x1 = losx[0], y1 = losy[0];
+			int x2 = losx[1], y2 = losy[1];
+			int x3 = losx[2], y3 = losy[2];
+			double ABC = Math.abs (x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2));
+			double ABP = Math.abs (x1 * (y2 - b) + x2 * (b - y1) + a * (y1 - y2));
+			double APC = Math.abs (x1 * (b - y3) + a * (y3 - y1) + x3 * (y1 - b));
+			double PBC = Math.abs (a * (y2 - y3) + x2 * (y3 - b) + x3 * (b - y2));
+			return ABP + APC + PBC == ABC;			
+		}
+	}
 	private void steer(double steering){
 		direction.turn(steering * (Math.PI / 24));
 	}
@@ -137,16 +194,55 @@ public class Car extends Machine{
 		this.queue = queue2;
 		
 	}
+	private boolean hasObstacle(){
+		return((obstacle!=null));
+	}
+	private int losx[] = new int[3];
+	private int losy[] = new int[3];
+	
+	public void drawLOS(Graphics g){
+		Direction vision = new Direction(direction.getX(), direction.getY());
+//		float LOSx = vision.getX() + LOS;
+//		float LOSy = vision.getY() + LOS;
+		vision.turn(Math.PI / 4);
+		float LOSx1 = x + vision.getX()*LOS;
+		float LOSy1 = y + vision.getY()*LOS;
+		vision.turn(-Math.PI / 2);
+		float LOSx2 = x + vision.getX()*LOS;
+		float LOSy2 = y + vision.getY()*LOS;
+//		int losx[] = new int[3];
+//		int losy[] = new int[3];
+		losx[0] = (int) x; 
+		losx[1] = (int) LOSx1;
+		losx[2] = (int) LOSx2;
+		losy[0] = (int) y;
+		losy[1] = (int) LOSy1;
+		losy[2] = (int) LOSy2;
+//		System.out.println(handler.toString());
+		int n = 3;
+		
+		Polygon p = new Polygon(losx, losy, n);
+//		Graphics2D g2d = (Graphics2D) g;
+//	    g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1 * 0.15f));
+	    g.setColor(Color.CYAN);
+	    
+	    g.fillPolygon(p);
+	}
 	public void render(Graphics g) {
 		if(!queue.isEmpty())
 			queue.peek().render(g);
+		
+		
+//		Component[] components = yourJFrame.getComponents();
+		
+		
 		g.drawImage(Assets.car, (int) x - size/2, (int) y - size/2, size, size, null);
+		drawLOS(g);
 		//g.drawImage(Assets.car, (int) x, (int) y, null)	;	
 	}
 	public Queue<TurningPoint> getQueue() {
 		return queue;
 	}
-
 	@Override
 	public void tick() {
 		// TODO Auto-generated method stub

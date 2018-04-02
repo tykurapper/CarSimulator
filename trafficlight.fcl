@@ -22,19 +22,19 @@ FUZZIFY lightstatus
   TERM green := (0, 1) (0.25, 1) (0.4, 0) ; 
   TERM less_green := (0.33, 0) (0.417, 1) (0.542, 0);
   TERM yellow := (0.458, 0) (0.542, 1) (0.708, 0);
-  TERM red := (0.625, 0) (0.67, 1) (0.83, 1) (1, 0);
+  TERM red := (0.625, 0) (0.67, 1) (0.83, 1) (0.9, 0);
   TERM less_red:= (0.83, 0) (0.917, 1) (1, 1);
 END_FUZZIFY
 
 FUZZIFY distance
-  TERM near := (0, 1) (10, 1) (40, 0) ; 
-  TERM medium := (10, 0) (20, 1) (50, 1) (70, 0);
-  TERM far := (40, 0) (70, 1) (200, 1);
+  TERM near := (0, 1) (10, 1) (17, 0) ; 
+  TERM medium := (13, 0) (20, 1) (50, 1) (60, 0);
+  TERM far := (50, 0) (70, 1) (200, 1);
 END_FUZZIFY
 
 DEFUZZIFY speed      // Defzzzify output variable 'steering' : {'hardright', 'right', 'straight', 'left', 'hardleft' }
-  TERM stop := (0,1) (0.05,0);
-  TERM slower := (0,0) (0.25,1) (0.5,0);
+  TERM stop := (0, 1) (0.05, 0);
+  TERM slower := (0.025,0) (0.25,1) (0.5,0);
   TERM slow := (0.3,0) (0.6,1) (0.8,0);
   TERM medium := (0.7,0)(0.9,1)(1,1);
 
@@ -107,7 +107,7 @@ RULEBLOCK No1
   RULE 58 : IF lightstatus IS less_green AND distance IS medium AND deviation IS right THEN speed IS slow;
   RULE 59 : IF lightstatus IS less_green AND distance IS medium AND deviation IS farleft THEN speed IS slower;
   RULE 60 : IF lightstatus IS less_green AND distance IS medium AND deviation IS farright THEN speed IS slower;
-  RULE 61 : IF lightstatus IS less_green AND distance IS near AND deviation IS middle THEN speed IS slow;
+  RULE 61 : IF lightstatus IS less_green AND distance IS near AND deviation IS middle THEN speed IS slower;
   RULE 62 : IF lightstatus IS less_green AND distance IS near AND deviation IS left THEN speed IS slower;
   RULE 63 : IF lightstatus IS less_green AND distance IS near AND deviation IS right THEN speed IS slower;
   RULE 64 : IF lightstatus IS less_green AND distance IS near AND deviation IS farleft THEN speed IS stop;

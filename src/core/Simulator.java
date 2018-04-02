@@ -15,6 +15,7 @@ public class Simulator implements Runnable{
 	private Display display;
 	public int width, height;
 	public String title;
+	private Handler handler;
 	
 	private boolean running = false;
 	private Thread thread;
@@ -37,7 +38,7 @@ public class Simulator implements Runnable{
 	private void init(){
 		display = new Display(title, width, height);
 		Assets.init();
-		
+		handler = new Handler(this);
 		simulatorState = new SimulatorState();
 		bewbsState = new BewbsState();
 		simulatorState.setState(simulatorState);
@@ -49,7 +50,7 @@ public class Simulator implements Runnable{
 		}
 	}
 	
-	private void render(){
+	private void render(Handler handler){
 		bs = display.getCanvas().getBufferStrategy();
 		if(bs == null)
 		{
@@ -63,7 +64,8 @@ public class Simulator implements Runnable{
 		//Begin Draw
 		
 		if(State.getState() != null){
-			State.getState().render(g);
+//			State.getState().setHandler(handler);
+			State.getState().render(handler, g);
 		}
 		
 		//End Draw
@@ -72,6 +74,22 @@ public class Simulator implements Runnable{
 		g.dispose();
 	}
 	
+	public Display getDisplay() {
+		return display;
+	}
+
+	public void setDisplay(Display display) {
+		this.display = display;
+	}
+
+	public Graphics getG() {
+		return g;
+	}
+
+	public void setG(Graphics g) {
+		this.g = g;
+	}
+
 	public void run() {
 		
 		int fps = 60;
@@ -91,7 +109,7 @@ public class Simulator implements Runnable{
 			
 			if(delta >= 1){
 				tick();
-				render();
+				render(handler);
 				ticks ++;
 				delta --;
 			}
