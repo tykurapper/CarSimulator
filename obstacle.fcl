@@ -46,10 +46,10 @@ RULEBLOCK No1
 //  RULE 5 : IF deviation IS farright THEN speed IS slower;
     RULE 1: IF distance IS near THEN speed IS stop;
     RULE 2: IF distance IS medium AND deviation IS farleft THEN speed IS slower;
-    RULE 2: IF distance IS medium AND deviation IS farright THEN speed IS slower;
-    RULE 2: IF distance IS medium AND deviation IS left THEN speed IS slow;
-    RULE 2: IF distance IS medium AND deviation IS right THEN speed IS slow;
-    RULE 2: IF distance IS medium AND deviation IS middle THEN speed IS medium;
+    RULE 3: IF distance IS medium AND deviation IS farright THEN speed IS slower;
+    RULE 4: IF distance IS medium AND deviation IS left THEN speed IS slow;
+    RULE 5: IF distance IS medium AND deviation IS right THEN speed IS slow;
+    RULE 6: IF distance IS medium AND deviation IS middle THEN speed IS medium;
 END_RULEBLOCK
 
 END_FUNCTION_BLOCK
