@@ -92,6 +92,8 @@ public class Car extends Machine{
 	private double distance1;
 	private double distance2;
 	private Obstacle obstacle;
+	private TurningPoint previous;
+	private TurningPoint next;
 	public void setObstacle(Obstacle obstacle) {
 		this.obstacle = obstacle;
 	}
@@ -104,8 +106,20 @@ public class Car extends Machine{
 		if(!queue2.isEmpty()){
 			setObstacle(obstacle);
 			setQueue(queue2);
-			
-			deviation = queue2.peek().getDeviation(x, y);
+//			if(previous == null){
+//				deviation = queue2.peek().getDeviation(x, y);
+//			}
+//			else if(!incline(queue2.peek(),(int) x,(int) y) && (x - queue2.peek().Start.getX())*(x - queue2.peek().Start.getX())+(y - queue2.peek().Start.getY())*(y - queue2.peek().Start.getY()) < TurningPoint.DEFAULT_RADIUS*TurningPoint.DEFAULT_RADIUS){
+//				deviation = previous.getDeviation(x, y);
+//			}
+//			else if(incline(queue2.peek(),(int) x,(int) y) || (x - queue2.peek().Start.getX())*(x - queue2.peek().Start.getX())+(y - queue2.peek().Start.getY())*(y - queue2.peek().Start.getY()) > TurningPoint.DEFAULT_RADIUS*TurningPoint.DEFAULT_RADIUS){
+//				deviation = queue2.peek().getDeviation(x, y);
+//				previous = null;
+//			}
+			if((x - queue2.peek().Start.getX())*(x - queue2.peek().Start.getX())+(y - queue2.peek().Start.getY())*(y - queue2.peek().Start.getY()) < TurningPoint.DEFAULT_RADIUS*TurningPoint.DEFAULT_RADIUS)
+				deviation = 1;
+			else
+				deviation = queue2.peek().getDeviation(x, y);
 			lightstatus = queue2.peek().getLightStatus();
 			distance1 = queue2.peek().getDistance(x, y);
 			if(obstacleInSight(obstacle)){
@@ -120,7 +134,7 @@ public class Car extends Machine{
 			
 			myfuzzyspeed1 = fuzzyspeed1.getValue((float) deviation, lightstatus, distance1);
 			double myfuzzyspeed = Math.min(myfuzzyspeed1, myfuzzyspeed2);
-			System.out.println(myfuzzyspeed);
+			System.out.println(incline(queue2.peek(),(int) x,(int) y));
 			if(myfuzzyspeed >= 0.02)
 				setSpeed(myfuzzyspeed);
 			else setSpeed(0);
@@ -160,7 +174,10 @@ public class Car extends Machine{
 			foward(speed);
 			if(queue2.peek().hasCame(x, y)){
 				System.out.println("Came");
+				previous = queue2.peek();
 				queue2.remove();
+				if(queue2 != null)
+				setDirection(new Direction((float)((queue2.peek().Center.getX()-x)/Math.sqrt((queue2.peek().Center.getX()-x)*(queue2.peek().Center.getX()-x)+(queue2.peek().Center.getY()-y)*(queue2.peek().Center.getY()-y))), (float)((queue2.peek().Center.getY()-y)/Math.sqrt((queue2.peek().Center.getX()-x)*(queue2.peek().Center.getX()-x)+(queue2.peek().Center.getY()-y)*(queue2.peek().Center.getY()-y)))));
 			}
 		}
 		else{
@@ -168,6 +185,9 @@ public class Car extends Machine{
 		}	
 	}
 	
+	public void setDirection(Direction direction) {
+		this.direction = direction;
+	}
 	private boolean obstacleInSight(Obstacle obstacle){
 		if(!hasObstacle())
 			return false;		
@@ -193,6 +213,14 @@ public class Car extends Machine{
 	private void setQueue(Queue<TurningPoint> queue2) {
 		this.queue = queue2;
 		
+	}
+	private boolean incline(TurningPoint current, int x, int y){
+		int x1 = (int) current.Center.getX();
+		int y1 = (int) current.Center.getY();
+		int x2 = (int) current.Start.getX();
+		int y2 = (int) current.Start.getY();
+		double ABC = Math.abs (x1 * (y2 - y) + x2 * (y - y1) + x * (y1 - y2));
+		return ABC == 0;
 	}
 	private boolean hasObstacle(){
 		return((obstacle!=null));
