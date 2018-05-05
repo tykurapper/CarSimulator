@@ -31,6 +31,9 @@ public abstract class TurningPoint {
 	public Point getStart() {
 		return Start;
 	}
+	public Point getCenter(){
+		return Center;
+	}
 	public Direction getDirection() {
 		return direction;
 	}

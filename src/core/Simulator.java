@@ -7,6 +7,7 @@ import display.Display;
 import entities.machines.Car;
 import gfx.Assets;
 import states.BewbsState;
+import states.MenuState;
 import states.SimulatorState;
 import states.State;
 
@@ -26,6 +27,7 @@ public class Simulator implements Runnable{
 	//State
 	private State simulatorState;
 	private State bewbsState;
+	private State menuState;
 	
 	public Simulator(String title, int width, int height){
 		
@@ -40,6 +42,7 @@ public class Simulator implements Runnable{
 		Assets.init();
 		handler = new Handler(this);
 		simulatorState = new SimulatorState();
+		menuState = new MenuState();
 		bewbsState = new BewbsState();
 		simulatorState.setState(simulatorState);
 	}

@@ -134,7 +134,7 @@ public class Car extends Machine{
 			
 			myfuzzyspeed1 = fuzzyspeed1.getValue((float) deviation, lightstatus, distance1);
 			double myfuzzyspeed = Math.min(myfuzzyspeed1, myfuzzyspeed2);
-			System.out.println(incline(queue2.peek(),(int) x,(int) y));
+//			System.out.println(incline(queue2.peek(),(int) x,(int) y));
 			if(myfuzzyspeed >= 0.02)
 				setSpeed(myfuzzyspeed);
 			else setSpeed(0);
@@ -176,7 +176,7 @@ public class Car extends Machine{
 				System.out.println("Came");
 				previous = queue2.peek();
 				queue2.remove();
-				if(queue2 != null)
+				if(!queue2.isEmpty())
 				setDirection(new Direction((float)((queue2.peek().Center.getX()-x)/Math.sqrt((queue2.peek().Center.getX()-x)*(queue2.peek().Center.getX()-x)+(queue2.peek().Center.getY()-y)*(queue2.peek().Center.getY()-y))), (float)((queue2.peek().Center.getY()-y)/Math.sqrt((queue2.peek().Center.getX()-x)*(queue2.peek().Center.getX()-x)+(queue2.peek().Center.getY()-y)*(queue2.peek().Center.getY()-y)))));
 			}
 		}
@@ -265,7 +265,7 @@ public class Car extends Machine{
 		
 		
 		g.drawImage(Assets.car, (int) x - size/2, (int) y - size/2, size, size, null);
-		drawLOS(g);
+//		drawLOS(g);
 		//g.drawImage(Assets.car, (int) x, (int) y, null)	;	
 	}
 	public Queue<TurningPoint> getQueue() {

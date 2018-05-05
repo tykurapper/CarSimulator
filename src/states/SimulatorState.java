@@ -37,6 +37,7 @@ public class SimulatorState extends State implements MouseListener{
 	private boolean hadMouseListener = false;
 	private Point MousePosition;
 	private Obstacle obstacle;
+	private int[] path;
 	//private boolean hasObstacle = false;
 
 	public SimulatorState(){
@@ -94,10 +95,17 @@ public class SimulatorState extends State implements MouseListener{
 //			handler.getSimulator().getDisplay().getCanvas().addMouseListener(this);
 		
 
-		stack.add(map.get(0));
-		stack.add(map.get(6));
-		stack.add(map.get(8));
-		stack.add(map.get(5));
+//		stack.add(map.getTPfromPoint(0, 3));
+//		stack.add(map.getTPfromPoint(3, 4));
+//		stack.add(map.getTPfromPoint(4, 8));
+//		stack.add(map.getTPfromPoint(8, 9));
+		path = map.dijkstra(0, 12);
+		System.out.print(path.length);
+		int i;
+		for(i = 0; i < path.length - 1; i++)
+			stack.add(map.getTPfromPoint(path[i], path[i+1]));
+		
+//		stack.add(map.get(6));
 //		stack.add(map.get(1));
 //		stack.add(map.get(2));
 		car = new Car(stack.peek().getStart(), stack.peek().getDirection());
