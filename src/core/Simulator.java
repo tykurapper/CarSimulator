@@ -86,7 +86,7 @@ public class Simulator implements Runnable{
 		simulatorState = new SimulatorState(handler);
 		menuState = new MenuState(handler);
 		bewbsState = new BewbsState(handler);
-		State.setState(menuState);
+		State.setState(simulatorState);
 	}
 	
 	public void startMenu(){
@@ -102,8 +102,8 @@ public class Simulator implements Runnable{
 	        	 if(start.getText().isEmpty() || finish.getText().isEmpty())
 	        		 JOptionPane.showMessageDialog(null, "Chua dien thong tin");
 	        	 else{
-		        	 startnode = Integer.parseInt(start.getText());
-		        	 finishnode = Integer.parseInt(finish.getText());
+		        	 startnode = Integer.parseInt(start.getText()) - 1;
+		        	 finishnode = Integer.parseInt(finish.getText()) - 1;
 		        	 
 		        	 if(startnode == finishnode || map.dijkstra(startnode, finishnode) == null)
 		        		 JOptionPane.showMessageDialog(null, "Nhap lai");
@@ -112,7 +112,7 @@ public class Simulator implements Runnable{
 	        	 }   
 	         }
 	      }); 
-		menu.setSize(300, 300);
+		menu.setSize(300, 200);
 		menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		menu.setVisible(true);
 		menu.setResizable(false);

@@ -100,7 +100,10 @@ public class MyMap {
 		for(i = 0; i < map.size(); i++)
 			map.get(i).render(g);
 		for(i = 0; i < point.size(); i++)
-			point.get(i).render(g);
+			{
+				point.get(i).render(g);
+				g.drawString(""+(i+1),(int) point.get(i).getX(),(int) point.get(i).getY());
+			}
 	}
 	public Point getPoint(int i){
 		return point.get(i);
@@ -112,6 +115,8 @@ public class MyMap {
 		return dijkstra(graph, 14, startnode, finish);
 	}
 	private int[] dijkstra(int graph[][], int n,int startnode, int finish){
+		if(startnode >= n || finish >= n)
+			return null;
 		int[][] cost = new int[MAX][MAX];
 		int[] distance = new int[MAX];
 		int[] pred = new int[MAX];
