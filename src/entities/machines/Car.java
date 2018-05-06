@@ -48,7 +48,8 @@ public class Car extends Machine{
 	private static final int size = 30;
 	public Car(Point start, Direction d) {
 		super((float)start.getX(), (float)start.getY());
-		direction = d;
+		setDirection(new Direction((float) (d.getX() / Math.sqrt(d.getX()*d.getX() + d.getY()*d.getY())), (float) (d.getY() / Math.sqrt(d.getX()*d.getX() + d.getY()*d.getY()))));
+//		setDirection(new Direction((float)((queue2.peek().Center.getX()-x)/Math.sqrt((queue2.peek().Center.getX()-x)*(queue2.peek().Center.getX()-x)+(queue2.peek().Center.getY()-y)*(queue2.peek().Center.getY()-y))), (float)((queue2.peek().Center.getY()-y)/Math.sqrt((queue2.peek().Center.getX()-x)*(queue2.peek().Center.getX()-x)+(queue2.peek().Center.getY()-y)*(queue2.peek().Center.getY()-y)))));
 		steer = new Steering();
 		steer.setFb("steering.fcl");
 		fuzzyspeed1 = new Speed();

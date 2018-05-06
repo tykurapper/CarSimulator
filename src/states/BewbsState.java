@@ -7,7 +7,7 @@ import java.awt.event.MouseListener;
 import core.Handler;
 import gfx.Assets;
 
-public class BewbsState extends State implements MouseListener{
+public class BewbsState extends State{
 	private boolean hadMouseListener = false;
 	private Handler handler;
 	public BewbsState(Handler handler){
@@ -20,6 +20,8 @@ public class BewbsState extends State implements MouseListener{
 	}
 	public void tick() {
 		// TODO Auto-generated method stub
+		if(handler.getMouseManager().isLeftClicked())
+			State.setState(handler.getSimulator().getMenuState());
 	}
 
 	@Override
@@ -30,40 +32,40 @@ public class BewbsState extends State implements MouseListener{
 		if(this.handler == null)
 		setHandler(handler);
 		// TODO Auto-generated method stub
-		if(!hadMouseListener){
-			handler.getSimulator().getDisplay().getCanvas().addMouseListener(this);
-			hadMouseListener = true;
-		}
+//		if(!hadMouseListener){
+//			handler.getSimulator().getDisplay().getCanvas().addMouseListener(this);
+//			hadMouseListener = true;
+//		}
 	}
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		if(State.getState() instanceof BewbsState)
-		{
-			State.setState(handler.getSimulator().getMenuState());
-			System.out.println(1);
-		}
-		
-	}
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+//	@Override
+//	public void mouseClicked(MouseEvent e) {
+//		// TODO Auto-generated method stub
+//		if(State.getState() instanceof BewbsState)
+//		{
+//			State.setState(handler.getSimulator().getMenuState());
+//			System.out.println(1);
+//		}
+//		
+//	}
+//	@Override
+//	public void mouseEntered(MouseEvent e) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//	@Override
+//	public void mouseExited(MouseEvent e) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//	@Override
+//	public void mousePressed(MouseEvent e) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//	@Override
+//	public void mouseReleased(MouseEvent e) {
+//		// TODO Auto-generated method stub
+//		
+//	}
 	
 }

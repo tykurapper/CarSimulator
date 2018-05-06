@@ -1,5 +1,7 @@
 package core;
 
+import input.MouseManager;
+
 public class Handler {
 	
 	private Simulator simulator;
@@ -12,5 +14,7 @@ public class Handler {
 	public void setSimulator(Simulator simulator) {
 		this.simulator = simulator;
 	}
-	
+	public MouseManager getMouseManager(){
+		return simulator.getMouseManager();
+	}
 }

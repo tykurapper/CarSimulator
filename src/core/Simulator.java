@@ -1,11 +1,23 @@
 package core;
 
+import java.awt.BorderLayout;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferStrategy;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import display.Display;
 import entities.machines.Car;
 import gfx.Assets;
+import input.MouseManager;
+import myMap.MyMap;
 import states.BewbsState;
 import states.MenuState;
 import states.SimulatorState;
@@ -14,13 +26,32 @@ import states.State;
 public class Simulator implements Runnable{
 	
 	private Display display;
+	private JFrame menu;
 	public int width, height;
 	public String title;
 	private Handler handler;
 	
+	public int getStartnode() {
+		return startnode;
+	}
+
+	public int getFinishnode() {
+		return finishnode;
+	}
+
+	// Input
+	private MouseManager mouseManager;
+	private int startnode, finishnode;
+	//
 	private boolean running = false;
 	private Thread thread;
-	
+	// Map
+	private MyMap map;
+	public MyMap getMap() {
+		return map;
+	}
+
+	//
 	private BufferStrategy bs;
 	private Graphics g;
 	
@@ -34,17 +65,62 @@ public class Simulator implements Runnable{
 		this.title = title;
 		this.width = width;
 		this.height = height;
-				
+		mouseManager = new MouseManager();
+	}
+
+	public MouseManager getMouseManager() {
+		return mouseManager;
 	}
 
 	private void init(){
 		display = new Display(title, width, height);
+
+		
+		display.getFrame().addMouseListener(mouseManager);
+		display.getFrame().addMouseMotionListener(mouseManager);
+		display.getCanvas().addMouseListener(mouseManager);
+		display.getCanvas().addMouseMotionListener(mouseManager);
 		Assets.init();
+//		map = new MyMap("case 1");
 		handler = new Handler(this);
 		simulatorState = new SimulatorState(handler);
 		menuState = new MenuState(handler);
 		bewbsState = new BewbsState(handler);
 		State.setState(menuState);
+	}
+	
+	public void startMenu(){
+		menu = new JFrame("Menu");
+		JLabel startLabel = new JLabel("Start: ", JLabel.RIGHT);
+		JLabel finishLabel = new JLabel("Finish: ", JLabel.CENTER);
+		final JTextField start = new JTextField(6);
+		final JTextField finish = new JTextField(6);
+		map = new MyMap("case 1");
+		JButton button = new JButton("Run Simulator");
+		button.addActionListener(new ActionListener() {
+	         public void actionPerformed(ActionEvent e) {
+	        	 startnode = Integer.parseInt(start.getText());
+	        	 finishnode = Integer.parseInt(finish.getText());
+	        	 if(map.dijkstra(startnode, finishnode) != null)
+	        		 start();	   
+	        	 else
+	        		 JOptionPane.showMessageDialog(null, "Nhap lai");
+	         }
+	      }); 
+		menu.setSize(300, 300);
+		menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		menu.setVisible(true);
+		menu.setResizable(false);
+		menu.setLocationRelativeTo(null);
+		JPanel menuPanel = new JPanel();
+//		menuPanel.addInputMethodListener(null);
+		menuPanel.add(startLabel);
+		menuPanel.add(start);
+		menuPanel.add(finishLabel);
+		menuPanel.add(finish);
+		menuPanel.add(button);
+//		menuPanel.add(JPanel.getButtonPanel(), BorderLayout.PAGE_END);
+		menu.add(menuPanel);
 	}
 	
 	public State getBewbsState() {

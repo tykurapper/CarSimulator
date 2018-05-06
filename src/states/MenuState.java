@@ -6,7 +6,7 @@ import java.awt.event.MouseListener;
 
 import core.Handler;
 
-public class MenuState extends State implements MouseListener{
+public class MenuState extends State{
 	private boolean hadMouseListener = false;
 	private Handler handler;
 	public MenuState(Handler handler) {
@@ -23,53 +23,53 @@ public class MenuState extends State implements MouseListener{
 	@Override
 	public void tick() {
 		// TODO Auto-generated method stub
-		
+		if(handler.getMouseManager().isLeftClicked())
+			State.setState(handler.getSimulator().getSimulatorState());
+		System.out.println(handler.getMouseManager().getMouseX() + "  " + handler.getMouseManager().getMouseY());
 	}
 
 	@Override
 	public void render(Handler handler, Graphics g) {
 		if(this.handler == null)
 		setHandler(handler);
+		handler.getSimulator().getMap().render(g);
 		// TODO Auto-generated method stub
-		if(!hadMouseListener){
-			handler.getSimulator().getDisplay().getCanvas().addMouseListener(this);
-			hadMouseListener = true;
-		}
+
 	}
 
-	@Override
-	public void mouseClicked(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		//System.out.println(handler.getSimulator().getMenuState().getState());
-		if(State.getState() instanceof MenuState){
-			State.setState(handler.getSimulator().getSimulatorState());
-//			System.out.println(2);
-		}
-		
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
+//	@Override
+//	public void mouseClicked(MouseEvent arg0) {
+//		// TODO Auto-generated method stub
+//		//System.out.println(handler.getSimulator().getMenuState().getState());
+//		if(State.getState() instanceof MenuState){
+//			State.setState(handler.getSimulator().getSimulatorState());
+////			System.out.println(2);
+//		}
+//		
+//	}
+//
+//	@Override
+//	public void mouseEntered(MouseEvent arg0) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//
+//	@Override
+//	public void mouseExited(MouseEvent arg0) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//
+//	@Override
+//	public void mousePressed(MouseEvent arg0) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//
+//	@Override
+//	public void mouseReleased(MouseEvent arg0) {
+//		// TODO Auto-generated method stub
+//		
+//	}
 
 }

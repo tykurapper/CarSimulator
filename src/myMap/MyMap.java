@@ -3,7 +3,10 @@ package myMap;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
+import direction.Direction;
+import entities.machines.StraightTurningPoint;
 import entities.machines.TurningPoint;
+import path.Line;
 import path.Point;
 
 public class MyMap {
@@ -21,6 +24,60 @@ public class MyMap {
 		for(i = 0; i < 30; i++)
 			for(j = 0; j < 30; j++)
 				graph[i][j] = -1;
+	}
+	public MyMap(String arg0){
+		map = new ArrayList<TurningPoint>();
+		point = new ArrayList<Point>();
+		graph = new int[MAX][MAX];
+		int i, j;
+		for(i = 0; i < 30; i++)
+			for(j = 0; j < 30; j++)
+				graph[i][j] = -1;
+		if(arg0.equals("case 1")){
+			addPoint(new Point(20, 20)); 	//1
+			addPoint(new Point(399, 20)); 	//2
+			addPoint(new Point(779, 20)); 	//3
+			addPoint(new Point(199, 199));	//4
+			addPoint(new Point(399, 199));	//5
+			addPoint(new Point(599, 199));	//6
+			addPoint(new Point(20, 299));	//7
+			addPoint(new Point(199, 299));	//8
+			addPoint(new Point(399, 299));	//9
+			addPoint(new Point(599, 299));	//10
+			addPoint(new Point(779, 299));	//11
+			addPoint(new Point(499, 399));	//12
+			addPoint(new Point(20, 579));	//13
+			addPoint(new Point(779, 579));	//14
+			
+			add(new StraightTurningPoint(getPoint(0), getPoint(3), TurningPoint.DEFAULT_RADIUS, new Direction(1, 1), new Line(34, 6, 213, 185), new Line(6, 34, 185, 213)));
+			add(new StraightTurningPoint(getPoint(3), getPoint(0), TurningPoint.DEFAULT_RADIUS, new Direction(-1, -1), new Line(6, 34, 185, 213), new Line(34, 6, 213, 185)));
+			add(new StraightTurningPoint(getPoint(1), getPoint(4), TurningPoint.DEFAULT_RADIUS, new Direction(0, 1), new Line(419, 20, 419, 199), new Line(379, 20, 379, 199)));
+			add(new StraightTurningPoint(getPoint(4), getPoint(1), TurningPoint.DEFAULT_RADIUS, new Direction(0, -1), new Line(379, 20, 379, 199), new Line(419, 20, 419, 199)));
+			add(new StraightTurningPoint(getPoint(2), getPoint(5), TurningPoint.DEFAULT_RADIUS, new Direction(-1, 1), new Line(793, 34, 613, 213), new Line(765, 6, 585, 185)));
+			add(new StraightTurningPoint(getPoint(5), getPoint(2), TurningPoint.DEFAULT_RADIUS, new Direction(1, -1), new Line(765, 6, 585, 185), new Line(793, 34, 613, 213)));
+			add(new StraightTurningPoint(getPoint(3), getPoint(4), TurningPoint.DEFAULT_RADIUS, new Direction(1, 0), new Line(199, 179, 399, 179), new Line(199, 219, 399, 219)));
+			add(new StraightTurningPoint(getPoint(4), getPoint(3), TurningPoint.DEFAULT_RADIUS, new Direction(-1, 0), new Line(199, 219, 399, 219), new Line(199, 179, 399, 179)));
+			add(new StraightTurningPoint(getPoint(4), getPoint(5), TurningPoint.DEFAULT_RADIUS, new Direction(1, 0), new Line(399, 179, 599, 179), new Line(399, 219, 599, 219)));
+			add(new StraightTurningPoint(getPoint(5), getPoint(4), TurningPoint.DEFAULT_RADIUS, new Direction(-1, 0), new Line(399, 219, 599, 219), new Line(399, 179, 599, 179)));
+			add(new StraightTurningPoint(getPoint(3), getPoint(7), TurningPoint.DEFAULT_RADIUS, new Direction(0, 1), new Line(219, 199, 219, 299), new Line(179, 199, 179, 299)));
+			add(new StraightTurningPoint(getPoint(7), getPoint(3), TurningPoint.DEFAULT_RADIUS, new Direction(0, -1), new Line(179, 199, 179, 299), new Line(219, 199, 219, 299)));
+			add(new StraightTurningPoint(getPoint(4), getPoint(8), TurningPoint.DEFAULT_RADIUS, new Direction(0, 1), new Line(419, 199, 419, 299), new Line(379, 199, 379, 299)));
+			add(new StraightTurningPoint(getPoint(8), getPoint(4), TurningPoint.DEFAULT_RADIUS, new Direction(0, -1), new Line(379, 199, 379, 299), new Line(419, 199, 419, 299)));
+			add(new StraightTurningPoint(getPoint(5), getPoint(9), TurningPoint.DEFAULT_RADIUS, new Direction(0, 1), new Line(619, 199, 619, 299), new Line(579, 199, 579, 299)));
+			add(new StraightTurningPoint(getPoint(9), getPoint(5), TurningPoint.DEFAULT_RADIUS, new Direction(0, -1), new Line(579, 199, 579, 299), new Line(619, 199, 619, 299)));
+			add(new StraightTurningPoint(getPoint(6), getPoint(7), TurningPoint.DEFAULT_RADIUS, new Direction(1, 0), new Line(20, 279, 199, 279), new Line(20, 319, 199, 319)));
+			add(new StraightTurningPoint(getPoint(7), getPoint(6), TurningPoint.DEFAULT_RADIUS, new Direction(-1, 0), new Line(20, 319, 199, 319), new Line(20, 279, 199, 279)));
+			add(new StraightTurningPoint(getPoint(7), getPoint(8), TurningPoint.DEFAULT_RADIUS, new Direction(1, 0), new Line(199, 279, 399, 279), new Line(199, 319, 399, 319)));
+			add(new StraightTurningPoint(getPoint(8), getPoint(7), TurningPoint.DEFAULT_RADIUS, new Direction(-1, 0), new Line(399, 319, 199, 319), new Line(399, 279, 199, 279)));
+			add(new StraightTurningPoint(getPoint(8), getPoint(9), TurningPoint.DEFAULT_RADIUS, new Direction(1, 0), new Line(399, 279, 599, 279), new Line(399, 319, 599, 319)));
+			add(new StraightTurningPoint(getPoint(9), getPoint(8), TurningPoint.DEFAULT_RADIUS, new Direction(-1, 0), new Line(599, 319, 399, 319), new Line(599, 279, 399, 279)));
+			add(new StraightTurningPoint(getPoint(9), getPoint(10), TurningPoint.DEFAULT_RADIUS, new Direction(1, 0), new Line(599, 279, 779, 279), new Line(599, 319, 779, 319)));
+			add(new StraightTurningPoint(getPoint(10), getPoint(9), TurningPoint.DEFAULT_RADIUS, new Direction(-1, 0), new Line(779, 319, 599, 319), new Line(779, 279, 599, 279)));
+			add(new StraightTurningPoint(getPoint(6), getPoint(12), TurningPoint.DEFAULT_RADIUS, new Direction(0, 1), new Line(40, 299, 40, 579), new Line(0, 299, 0, 579)));
+			add(new StraightTurningPoint(getPoint(12), getPoint(6), TurningPoint.DEFAULT_RADIUS, new Direction(0, -1), new Line(0, 299, 0, 579), new Line(40, 299, 40, 579)));
+			add(new StraightTurningPoint(getPoint(8), getPoint(12), TurningPoint.DEFAULT_RADIUS, new Direction(1, -1), new Line(410, 315, 32, 595), new Line(388, 283, 8, 562)));
+			add(new StraightTurningPoint(getPoint(12), getPoint(8), TurningPoint.DEFAULT_RADIUS, new Direction(1, -1), new Line(388, 283, 8, 562), new Line(410, 315, 32, 595)));
+		}
 	}
 	public void addPoint(Point p){
 		point.add(p);
