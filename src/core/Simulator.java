@@ -99,12 +99,17 @@ public class Simulator implements Runnable{
 		JButton button = new JButton("Run Simulator");
 		button.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
-	        	 startnode = Integer.parseInt(start.getText());
-	        	 finishnode = Integer.parseInt(finish.getText());
-	        	 if(map.dijkstra(startnode, finishnode) != null)
-	        		 start();	   
-	        	 else
-	        		 JOptionPane.showMessageDialog(null, "Nhap lai");
+	        	 if(start.getText().isEmpty() || finish.getText().isEmpty())
+	        		 JOptionPane.showMessageDialog(null, "Chua dien thong tin");
+	        	 else{
+		        	 startnode = Integer.parseInt(start.getText());
+		        	 finishnode = Integer.parseInt(finish.getText());
+		        	 
+		        	 if(startnode == finishnode || map.dijkstra(startnode, finishnode) == null)
+		        		 JOptionPane.showMessageDialog(null, "Nhap lai");
+		        	 else
+		        		 start();	
+	        	 }   
 	         }
 	      }); 
 		menu.setSize(300, 300);
