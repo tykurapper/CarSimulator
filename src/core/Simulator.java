@@ -41,12 +41,28 @@ public class Simulator implements Runnable{
 		display = new Display(title, width, height);
 		Assets.init();
 		handler = new Handler(this);
-		simulatorState = new SimulatorState();
-		menuState = new MenuState();
-		bewbsState = new BewbsState();
-		simulatorState.setState(simulatorState);
+		simulatorState = new SimulatorState(handler);
+		menuState = new MenuState(handler);
+		bewbsState = new BewbsState(handler);
+		State.setState(menuState);
 	}
 	
+	public State getBewbsState() {
+		return bewbsState;
+	}
+
+	public void setBewbsState(State bewbsState) {
+		this.bewbsState = bewbsState;
+	}
+
+	public State getMenuState() {
+		return menuState;
+	}
+
+	public void setMenuState(State menuState) {
+		this.menuState = menuState;
+	}
+
 	private void tick(){
 		if(State.getState() != null){
 			State.getState().tick();
@@ -145,6 +161,14 @@ public class Simulator implements Runnable{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public State getSimulatorState() {
+		return simulatorState;
+	}
+
+	public void setSimulatorState(State simulatorState) {
+		this.simulatorState = simulatorState;
 	}
 	
 

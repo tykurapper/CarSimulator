@@ -103,9 +103,10 @@ public class MyMap {
 	                    }
 	        count++;
 	    }
-	    System.out.println("\nDistance of node " +finish + " = " + distance[finish] + "\n");
+	    
 	    if(distance[finish] < INFINITY){
-	    	System.out.print(finish);
+	    	System.out.println("Distance from " +startnode + " to "+ finish + " = " + distance[finish]);
+//	    	System.out.print(finish);
 	    	int k = distance[finish] + 1;
 		    int[] path = new int[k];
 		    path[--k] = finish;
@@ -113,12 +114,13 @@ public class MyMap {
 		    do {	    	
 		    	j = pred[j];
 		    	path[--k] = j;
-		    	System.out.print( " <- " + j);
+//		    	System.out.print( " <- " + j);
 		    }
 		    while(j!=startnode);
 		    System.out.print("\n");
-		    for(i = 0; i < distance[finish] + 1; i++)
+		    for(i = 0; i < distance[finish]; i++)
 		    	System.out.print(path[i] + " > ");
+		    System.out.print(path[distance[finish]] + "\n");
 		    return path;
 	    }
 	    else return null;

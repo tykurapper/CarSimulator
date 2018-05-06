@@ -40,8 +40,10 @@ public class SimulatorState extends State implements MouseListener{
 	private int[] path;
 	//private boolean hasObstacle = false;
 
-	public SimulatorState(){
+	public SimulatorState(Handler handler2){
 //		case 1
+		if(this.handler == null)
+			setHandler(handler2);
 		map.addPoint(new Point(20, 20)); 	//1
 		map.addPoint(new Point(399, 20)); 	//2
 		map.addPoint(new Point(779, 20)); 	//3
@@ -99,27 +101,44 @@ public class SimulatorState extends State implements MouseListener{
 //		stack.add(map.getTPfromPoint(3, 4));
 //		stack.add(map.getTPfromPoint(4, 8));
 //		stack.add(map.getTPfromPoint(8, 9));
-		path = map.dijkstra(0, 12);
-		System.out.print(path.length);
-		int i;
-		for(i = 0; i < path.length - 1; i++)
-			stack.add(map.getTPfromPoint(path[i], path[i+1]));
+		setPath(0, 12);
+		if(path == null)
+			{
+				State.setState(handler.getSimulator().getBewbsState());
+//				System.out.println(State.getState());
+//				System.out.println("path = null");
+			}
+		if(path != null) {
+//			System.out.print(path.length);
+			int i;
+			for(i = 0; i < path.length - 1; i++)
+				stack.add(map.getTPfromPoint(path[i], path[i+1]));
+			
+//			stack.add(map.get(6));
+//			stack.add(map.get(1));
+//			stack.add(map.get(2));
+			car = new Car(stack.peek().getStart(), stack.peek().getDirection());
+		}
 		
-//		stack.add(map.get(6));
-//		stack.add(map.get(1));
-//		stack.add(map.get(2));
-		car = new Car(stack.peek().getStart(), stack.peek().getDirection());
 	}
 	public void tick() {
 		//System.out.println(car.distanceFrom(lineA));
-		car.tick(stack, obstacle);
+		if(path == null)
+			State.setState(handler.getSimulator().getMenuState());
+		if(path != null)
+			car.tick(stack, obstacle);
 		
 	}
-
+	public void setPath(int start, int finish){
+		path = map.dijkstra(start, finish);
+	}
+	public int[] getPath(){
+		return path;
+	}
 	@Override
 	public void render(Handler handler, Graphics g) {
 		map.render(g);
-		if(handler == null)
+		if(this.handler == null)
 			setHandler(handler);
 		//stack.peek().render(g);
 		MousePosition = new Point(MouseInfo.getPointerInfo().getLocation().x - handler.getSimulator().getDisplay().getCanvas().getLocationOnScreen().x, MouseInfo.getPointerInfo().getLocation().getY() - handler.getSimulator().getDisplay().getCanvas().getLocationOnScreen().y);
@@ -134,8 +153,12 @@ public class SimulatorState extends State implements MouseListener{
 //		addMouse();
 		if(hasObstacle())
 			obstacle.render(g);
-		car.setHandler(handler);
-		car.render(g);
+		if(path!=null){
+			
+			car.setHandler(handler);
+			car.render(g);
+		}
+		
 		
 	}
 //	private void addMouse(){
