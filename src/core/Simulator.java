@@ -98,6 +98,7 @@ public class Simulator implements Runnable{
 		final JTextField finish = new JTextField(6);
 //		map = new MyMap("case 1");
 		JButton button = new JButton("Run Simulator");
+		JButton exitbutton = new JButton("Exit");
 		button.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
 	        	 if(start.getText().isEmpty() || finish.getText().isEmpty())
@@ -117,6 +118,11 @@ public class Simulator implements Runnable{
 	        	 }   
 	         }
 	      }); 
+		exitbutton.addActionListener(new ActionListener() {
+	         public void actionPerformed(ActionEvent e) {
+	        	 System.exit(0); 
+	         }
+	      }); 
 		menu.setSize(300, 200);
 		menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //		menu.setAlwaysOnTop(true);
@@ -130,6 +136,7 @@ public class Simulator implements Runnable{
 		menuPanel.add(finishLabel);
 		menuPanel.add(finish);
 		menuPanel.add(button);
+		menuPanel.add(exitbutton);
 //		menuPanel.add(JPanel.getButtonPanel(), BorderLayout.PAGE_END);
 		menu.add(menuPanel);
 	}
