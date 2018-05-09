@@ -101,5 +101,10 @@ public class ArcTurningPoint extends TurningPoint{
 		g.setColor(Color.BLUE);
 		((Graphics2D) g).draw(rightCurve);
 	}
-
+	public void renderPath(Graphics g){
+		g.setColor(Color.BLACK);
+		((Graphics2D) g).draw(leftCurve);
+		g.setColor(Color.BLACK);
+		((Graphics2D) g).draw(rightCurve);
+	}
 }

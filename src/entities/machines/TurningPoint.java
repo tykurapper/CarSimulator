@@ -28,6 +28,7 @@ public abstract class TurningPoint {
 		return Math.sqrt((x - Center.getX())*(x - Center.getX())+(y - Center.getY())*(y - Center.getY())) - DEFAULT_RADIUS;
 	}
 	public abstract void render(Graphics g);
+	public abstract void renderPath(Graphics g);
 	public Point getStart() {
 		return Start;
 	}

@@ -16,4 +16,10 @@ public class EndPoint extends TurningPoint{
 		
 	}
 
+	@Override
+	public void renderPath(Graphics g) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

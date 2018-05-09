@@ -49,6 +49,9 @@ public class MyMap {
 			addPoint(new Point(20, 579));	//13
 			addPoint(new Point(779, 579));	//14
 			
+			getPoint(4).setTrafficLight(true);
+			getPoint(8).setTrafficLight(true);
+			
 			add(new StraightTurningPoint(getPoint(0), getPoint(3), TurningPoint.DEFAULT_RADIUS, new Direction(1, 1), new Line(34, 6, 213, 185), new Line(6, 34, 185, 213)));
 			add(new StraightTurningPoint(getPoint(3), getPoint(0), TurningPoint.DEFAULT_RADIUS, new Direction(-1, -1), new Line(6, 34, 185, 213), new Line(34, 6, 213, 185)));
 			add(new StraightTurningPoint(getPoint(1), getPoint(4), TurningPoint.DEFAULT_RADIUS, new Direction(0, 1), new Line(419, 20, 419, 199), new Line(379, 20, 379, 199)));
@@ -104,6 +107,11 @@ public class MyMap {
 				point.get(i).render(g);
 				g.drawString(""+(i+1),(int) point.get(i).getX(),(int) point.get(i).getY());
 			}
+	}
+	public void renderPath(Graphics g, int[] path){
+		int i;
+		for(i = 0; i < path.length - 1; i++)
+			getTPfromPoint(path[i], path[i+1]).renderPath(g);
 	}
 	public Point getPoint(int i){
 		return point.get(i);

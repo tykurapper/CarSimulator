@@ -259,7 +259,9 @@ public class Car extends Machine{
 	}
 	public void render(Graphics g) {
 		if(!queue.isEmpty())
-			queue.peek().render(g);
+			{
+//				queue.peek().render(g);
+			}
 		
 		
 //		Component[] components = yourJFrame.getComponents();

@@ -172,9 +172,12 @@ public class SimulatorState extends State{
 	public int[] getPath(){
 		return path;
 	}
+	
 	@Override
 	public void render(Handler handler, Graphics g) {
 		handler.getSimulator().getMap().render(g);
+		if(path != null)
+			handler.getSimulator().getMap().renderPath(g, path);
 		if(this.handler == null)
 			setHandler(handler);
 		//stack.peek().render(g);

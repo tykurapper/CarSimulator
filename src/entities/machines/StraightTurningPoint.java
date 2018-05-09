@@ -62,6 +62,10 @@ public class StraightTurningPoint extends TurningPoint{
 	}
 	
 	public void render(Graphics g){
+		lineLeft.draw(g, Color.BLACK);
+		lineRight.draw(g, Color.BLACK);
+	}
+	public void renderPath(Graphics g){
 		lineLeft.draw(g, Color.RED);
 		lineRight.draw(g, Color.BLUE);
 	}
