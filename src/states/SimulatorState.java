@@ -104,16 +104,49 @@ public class SimulatorState extends State{
 //		stack.add(map.getTPfromPoint(8, 9));
 //		setPath(12, 0);
 //		path = handler.getSimulator().getMap().dijkstra(0, 12);
-		System.out.println(handler.getSimulator().getStartnode());
-		path = handler.getSimulator().getMap().dijkstra(handler.getSimulator().getStartnode(), handler.getSimulator().getFinishnode());
+//		System.out.println(handler.getSimulator().getStartnode());
+//		path = handler.getSimulator().getMap().dijkstra(handler.getSimulator().getStartnode(), handler.getSimulator().getFinishnode());
 //		if(path == null)
 //			{
 //				State.setState(handler.getSimulator().getBewbsState());
 ////				System.out.println(State.getState());
 ////				System.out.println("path = null");
 //			}
-		if(path != null) {
-//			System.out.print(path.length);
+//		if(path != null) {
+////			System.out.print(path.length);
+//			int i;
+//			for(i = 0; i < path.length - 1; i++)
+//				stack.add(handler.getSimulator().getMap().getTPfromPoint(path[i], path[i+1]));
+//			
+////			stack.add(map.get(6));
+////			stack.add(map.get(1));
+////			stack.add(map.get(2));
+//			car = new Car(stack.peek().getStart(), stack.peek().getDirection());
+//		}
+		
+	}
+	public void tick() {
+		//System.out.println(car.distanceFrom(lineA));
+		if(handler.getMouseManager().isLeftClicked())
+			clickObstacle((float) handler.getMouseManager().getMouseX(), (float) handler.getMouseManager().getMouseY());
+		if(path == null){
+			setPath();
+//			setPath(handler.getSimulator().getStartnode(), handler.getSimulator().getFinishnode());
+//			path = handler.getSimulator().getMap().dijkstra(handler.getSimulator().getStartnode(), handler.getSimulator().getFinishnode());
+//			State.setState(handler.getSimulator().getBewbsState());
+		}
+			
+		else
+			car.tick(stack, obstacle);
+		
+	}
+	public MyMap getMap() {
+		return map;
+	}
+	public void setPath(){
+//		path = map.dijkstra(start, finish);
+		path = handler.getSimulator().getMap().dijkstra(handler.getSimulator().getStartnode(), handler.getSimulator().getFinishnode());
+		if(path!= null){
 			int i;
 			for(i = 0; i < path.length - 1; i++)
 				stack.add(handler.getSimulator().getMap().getTPfromPoint(path[i], path[i+1]));
@@ -123,23 +156,6 @@ public class SimulatorState extends State{
 //			stack.add(map.get(2));
 			car = new Car(stack.peek().getStart(), stack.peek().getDirection());
 		}
-		
-	}
-	public void tick() {
-		//System.out.println(car.distanceFrom(lineA));
-		if(handler.getMouseManager().isLeftClicked())
-			clickObstacle((float) handler.getMouseManager().getMouseX(), (float) handler.getMouseManager().getMouseY());
-		if(path == null)
-			State.setState(handler.getSimulator().getBewbsState());
-		if(path != null)
-			car.tick(stack, obstacle);
-		
-	}
-	public MyMap getMap() {
-		return map;
-	}
-	public void setPath(int start, int finish){
-		path = map.dijkstra(start, finish);
 	}
 	public int[] getPath(){
 		return path;

@@ -81,12 +81,13 @@ public class Simulator implements Runnable{
 		display.getCanvas().addMouseListener(mouseManager);
 		display.getCanvas().addMouseMotionListener(mouseManager);
 		Assets.init();
-//		map = new MyMap("case 1");
+		map = new MyMap("case 1");
 		handler = new Handler(this);
 		simulatorState = new SimulatorState(handler);
 		menuState = new MenuState(handler);
 		bewbsState = new BewbsState(handler);
-		State.setState(simulatorState);
+		State.setState(menuState);
+		startMenu();
 	}
 	
 	public void startMenu(){
@@ -95,7 +96,7 @@ public class Simulator implements Runnable{
 		JLabel finishLabel = new JLabel("Finish: ", JLabel.CENTER);
 		final JTextField start = new JTextField(6);
 		final JTextField finish = new JTextField(6);
-		map = new MyMap("case 1");
+//		map = new MyMap("case 1");
 		JButton button = new JButton("Run Simulator");
 		button.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
@@ -107,13 +108,18 @@ public class Simulator implements Runnable{
 		        	 
 		        	 if(startnode == finishnode || map.dijkstra(startnode, finishnode) == null)
 		        		 JOptionPane.showMessageDialog(null, "Nhap lai");
-		        	 else
-		        		 start();	
+		        	 else{
+		        		 menu.setVisible(false);
+		        		 State.setState(simulatorState);
+		        		 start();
+		        	 }
+	
 	        	 }   
 	         }
 	      }); 
 		menu.setSize(300, 200);
 		menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		menu.setAlwaysOnTop(true);
 		menu.setVisible(true);
 		menu.setResizable(false);
 		menu.setLocationRelativeTo(null);
@@ -127,7 +133,6 @@ public class Simulator implements Runnable{
 //		menuPanel.add(JPanel.getButtonPanel(), BorderLayout.PAGE_END);
 		menu.add(menuPanel);
 	}
-	
 	public State getBewbsState() {
 		return bewbsState;
 	}

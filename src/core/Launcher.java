@@ -20,6 +20,6 @@ public class Launcher {
             }
 
 		Simulator simulator = new Simulator("CarSimulator", 800, 600);
-		simulator.startMenu();
+		simulator.start();
 	}
 }

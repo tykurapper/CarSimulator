@@ -24,8 +24,11 @@ public class MenuState extends State{
 	public void tick() {
 		// TODO Auto-generated method stub
 		if(handler.getMouseManager().isLeftClicked())
-			State.setState(handler.getSimulator().getSimulatorState());
-		System.out.println(handler.getMouseManager().getMouseX() + "  " + handler.getMouseManager().getMouseY());
+			{
+//				State.setState(handler.getSimulator().getSimulatorState());
+				System.out.println(handler.getMouseManager().getMouseX() + "  " + handler.getMouseManager().getMouseY());
+			}
+//		System.out.println(handler.getMouseManager().getMouseX() + "  " + handler.getMouseManager().getMouseY());
 	}
 
 	@Override
