@@ -136,7 +136,9 @@ public class Simulator implements Runnable{
 	public State getBewbsState() {
 		return bewbsState;
 	}
-
+	public void setMenuVisible(boolean b){
+		menu.setVisible(b);
+	}
 	public void setBewbsState(State bewbsState) {
 		this.bewbsState = bewbsState;
 	}

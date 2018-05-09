@@ -128,7 +128,16 @@ public class SimulatorState extends State{
 	public void tick() {
 		//System.out.println(car.distanceFrom(lineA));
 		if(handler.getMouseManager().isLeftClicked())
-			clickObstacle((float) handler.getMouseManager().getMouseX(), (float) handler.getMouseManager().getMouseY());
+			{
+				if(!stack.isEmpty())
+					clickObstacle((float) handler.getMouseManager().getMouseX(), (float) handler.getMouseManager().getMouseY());
+				else
+					{
+						path = null;
+						State.setState(handler.getSimulator().getMenuState());
+						handler.getSimulator().setMenuVisible(true);
+					}
+			}
 		if(path == null){
 			setPath();
 //			setPath(handler.getSimulator().getStartnode(), handler.getSimulator().getFinishnode());
@@ -137,7 +146,10 @@ public class SimulatorState extends State{
 		}
 			
 		else
-			car.tick(stack, obstacle);
+			{
+				car.tick(stack, obstacle);
+//				System.out.println(stack.isEmpty());
+			}
 		
 	}
 	public MyMap getMap() {
