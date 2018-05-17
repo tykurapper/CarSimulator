@@ -31,14 +31,7 @@ public class Simulator implements Runnable{
 	public String title;
 	private Handler handler;
 	
-	public int getStartnode() {
-		return startnode;
-	}
-
-	public int getFinishnode() {
-		return finishnode;
-	}
-
+	
 	// Input
 	private MouseManager mouseManager;
 	private int startnode, finishnode;
@@ -110,9 +103,12 @@ public class Simulator implements Runnable{
 		        	 if(startnode == finishnode || map.dijkstra(startnode, finishnode) == null)
 		        		 JOptionPane.showMessageDialog(null, "Nhap lai");
 		        	 else{
+		        		 System.out.println(startnode + " abcxyz " + finishnode);
+		        		 if(simulatorState instanceof SimulatorState)
+		        			 ((SimulatorState) simulatorState).setPath();
 		        		 menu.setVisible(false);
 		        		 State.setState(simulatorState);
-		        		 start();
+//		        		 start();
 		        	 }
 	
 	        	 }   
@@ -265,6 +261,13 @@ public class Simulator implements Runnable{
 	public void setSimulatorState(State simulatorState) {
 		this.simulatorState = simulatorState;
 	}
-	
+	public int getStartnode() {
+		return startnode;
+	}
+
+	public int getFinishnode() {
+		return finishnode;
+	}
+
 
 }

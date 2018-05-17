@@ -33,8 +33,8 @@ public class MenuState extends State{
 
 	@Override
 	public void render(Handler handler, Graphics g) {
-		if(this.handler == null)
-		setHandler(handler);
+//		if(this.handler == null)
+//		setHandler(handler);
 		handler.getSimulator().getMap().render(g);
 		// TODO Auto-generated method stub
 

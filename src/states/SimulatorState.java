@@ -37,7 +37,7 @@ public class SimulatorState extends State{
 	private boolean hadMouseListener = false;
 	private Point MousePosition;
 	private Obstacle obstacle;
-	private int[] path;
+	private int[] path = null;
 	//private boolean hasObstacle = false;
 
 	public SimulatorState(Handler handler2){
@@ -134,12 +134,13 @@ public class SimulatorState extends State{
 				else
 					{
 						path = null;
-						State.setState(handler.getSimulator().getMenuState());
 						handler.getSimulator().setMenuVisible(true);
+						State.setState(handler.getSimulator().getMenuState());
 					}
 			}
 		if(path == null){
-			setPath();
+//			setPath();
+//			System.out.println("dcmmmmmmmm");
 //			setPath(handler.getSimulator().getStartnode(), handler.getSimulator().getFinishnode());
 //			path = handler.getSimulator().getMap().dijkstra(handler.getSimulator().getStartnode(), handler.getSimulator().getFinishnode());
 //			State.setState(handler.getSimulator().getBewbsState());
@@ -158,6 +159,7 @@ public class SimulatorState extends State{
 	public void setPath(){
 //		path = map.dijkstra(start, finish);
 		path = handler.getSimulator().getMap().dijkstra(handler.getSimulator().getStartnode(), handler.getSimulator().getFinishnode());
+//		System.out.println(handler.getSimulator().getStartnode() + " + " + handler.getSimulator().getFinishnode());
 		if(path!= null){
 			int i;
 			for(i = 0; i < path.length - 1; i++)
@@ -167,6 +169,7 @@ public class SimulatorState extends State{
 //			stack.add(map.get(1));
 //			stack.add(map.get(2));
 			car = new Car(stack.peek().getStart(), stack.peek().getDirection());
+//			path = null;
 		}
 	}
 	public int[] getPath(){
@@ -178,8 +181,8 @@ public class SimulatorState extends State{
 		handler.getSimulator().getMap().render(g);
 		if(path != null)
 			handler.getSimulator().getMap().renderPath(g, path);
-		if(this.handler == null)
-			setHandler(handler);
+//		if(this.handler == null)
+//			setHandler(handler);
 		//stack.peek().render(g);
 //		MousePosition = new Point(MouseInfo.getPointerInfo().getLocation().x - handler.getSimulator().getDisplay().getCanvas().getLocationOnScreen().x, MouseInfo.getPointerInfo().getLocation().getY() - handler.getSimulator().getDisplay().getCanvas().getLocationOnScreen().y);
 		MousePosition = new Point(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY());

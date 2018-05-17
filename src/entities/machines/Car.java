@@ -28,6 +28,8 @@ public class Car extends Machine{
 	public static final double SLOW = 0.75;
 	public static final double MEDIUM = 1;
 	public static final int LOS = 113;
+	public static final int LENGTH = 15;
+	public static final int WIDTH = 10;
 	private double speed = 1;
 	private Handler handler;
 	public Handler getHandler() {
@@ -257,6 +259,26 @@ public class Car extends Machine{
 	    
 	    g.fillPolygon(p);
 	}
+	public void drawCar(Graphics g){
+		Direction carDir = new Direction(direction.getX(), direction.getY());
+		int drawCarX[] = new int[4];
+		int drawCarY[] = new int[4];
+		Point head = new Point(x + carDir.getX()*LENGTH, y + carDir.getY()*LENGTH);
+		Point tail = new Point(x - carDir.getX()*LENGTH, y - carDir.getY()*LENGTH);
+		carDir.turn(Math.PI/2);
+		drawCarX[0] = (int) (head.getX() + carDir.getX()*WIDTH);
+		drawCarY[0] = (int) (head.getY() + carDir.getY()*WIDTH);
+		drawCarX[1] = (int) (head.getX() - carDir.getX()*WIDTH);
+		drawCarY[1] = (int) (head.getY() - carDir.getY()*WIDTH);
+		drawCarX[2] = (int) (tail.getX() - carDir.getX()*WIDTH);
+		drawCarY[2] = (int) (tail.getY() - carDir.getY()*WIDTH);
+		drawCarX[3] = (int) (tail.getX() + carDir.getX()*WIDTH);
+		drawCarY[3] = (int) (tail.getY() + carDir.getY()*WIDTH);
+		int n = 4;
+		Polygon car = new Polygon(drawCarX, drawCarY, n);
+		g.setColor(Color.MAGENTA);
+		g.fillPolygon(car);
+	}
 	public void render(Graphics g) {
 		if(!queue.isEmpty())
 			{
@@ -267,7 +289,8 @@ public class Car extends Machine{
 //		Component[] components = yourJFrame.getComponents();
 		
 		
-		g.drawImage(Assets.car, (int) x - size/2, (int) y - size/2, size, size, null);
+//		g.drawImage(Assets.car, (int) x - size/2, (int) y - size/2, size, size, null);
+		drawCar(g);
 //		drawLOS(g);
 		//g.drawImage(Assets.car, (int) x, (int) y, null)	;	
 	}
