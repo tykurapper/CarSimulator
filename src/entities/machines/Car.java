@@ -94,6 +94,7 @@ public class Car extends Machine{
 	private double lightstatus;
 	private double distance1;
 	private double distance2;
+	private double lastDeviation;
 	private Obstacle obstacle;
 	private TurningPoint previous;
 	private TurningPoint next;
@@ -120,9 +121,15 @@ public class Car extends Machine{
 //				previous = null;
 //			}
 			if((x - queue2.peek().Start.getX())*(x - queue2.peek().Start.getX())+(y - queue2.peek().Start.getY())*(y - queue2.peek().Start.getY()) < TurningPoint.DEFAULT_RADIUS*TurningPoint.DEFAULT_RADIUS)
-				deviation = 0.5;
+				{
+					deviation = 0.5;
+					lastDeviation = 0.5;
+				}
 			else
-				deviation = queue2.peek().getDeviation(x, y);
+				{
+					lastDeviation = deviation;
+					deviation = queue2.peek().getDeviation(x, y);
+				}
 			lightstatus = queue2.peek().getLightStatus();
 			distance1 = queue2.peek().getDistance(x, y);
 			if(obstacleInSight(obstacle)){
@@ -144,36 +151,34 @@ public class Car extends Machine{
 //			System.out.println(obstacleInSight(obstacle));
 //			System.out.println(distance1);
 			
-			
-//			System.out.println("(" + mouse.getX() + ", " + mouse.getY() + ")");
-			//System.out.println(fuzzyspeed.getValue((float)2.072, 0.1506, 61.19));
 //			steer(steervalue);
 			if(speed > 0){
-			if(steervalue <= 0.325)
-					hardleft();
-			else if(0.45 >= steervalue && steervalue >= 0.325)
-//				if(lastvalue < 0.325)
-//					right();
-//				else
-					left();
-			else if(steervalue <= 0.55 && steervalue >= 0.45)
-			{
-					
-//				if(lastvalue > 0.55)
+//			if(steervalue <= 0.325)
 //					hardleft();
-//				else if(lastvalue < 0.45)
-//					hardright();
-//				else setSpeed(NORMAL);
-//					steer(0);
-			}
-			else if(0.55 <= steervalue && steervalue < 0.675)
-//				if(lastvalue > 0.675)
+//			else if(0.45 >= steervalue && steervalue >= 0.325)
+////				if(lastvalue < 0.325)
+////					right();
+////				else
 //					left();
-//				else
-					right();
-			else if(steervalue >  0.675)
-					hardright();
+//			else if(steervalue <= 0.55 && steervalue >= 0.45)
+//			{
+//					
+////				if(lastvalue > 0.55)
+////					hardleft();
+////				else if(lastvalue < 0.45)
+////					hardright();
+//			}
+//			else if(0.55 <= steervalue && steervalue < 0.675)
+////				if(lastvalue > 0.675)
+////					left();
+////				else
+//					right();
+//			else if(steervalue >  0.675)
+//					hardright();
+				steer((steervalue - 0.5) /3);
+				steer((lastDeviation - deviation) * 15);
 			}
+			System.out.println(myfuzzyspeed1);
 			foward(speed);
 			if(queue2.peek().hasCame(x, y)){
 				System.out.println("Came");
