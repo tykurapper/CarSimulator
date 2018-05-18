@@ -21,19 +21,19 @@ VAR_OUTPUT				// Define output variable
 END_VAR
 
 FUZZIFY deviation			// Fuzzify input variable 'deviation': {'farleft', 'left' , 'middle', 'right', 'farright'}
-	TERM farleft := (0, 1) (0.11, 1) (0.22, 0) ; 
-	TERM left := (0.18, 0) (0.5, 1) (1, 0);
-	TERM middle := (0.75, 0) (1, 1) (1.25, 0);
-	TERM right := (1, 0) (2, 1) (5.67, 0);
-	TERM farright:= (4.45, 0) (6, 1) (7, 1);
+	TERM farleft := (0, 1) (0.25, 1) (0.4, 0) ; 
+	TERM left := (0.25, 0) (0.4, 1) (0.5, 0);
+	TERM middle := (0.4, 0) (0.5, 1) (0.6, 0);
+	TERM right := (0.5, 0) (0.6, 1) (0.75, 0);
+	TERM farright:= (0.6, 0) (0.75, 1) (1, 1);
 END_FUZZIFY
 
 DEFUZZIFY steering			// Defzzzify output variable 'steering' : {'hardright', 'right', 'straight', 'left', 'hardleft' }
-	TERM hardright := (-1.25,1) (-1,1) (-0.5,0);
-	TERM right := (-0.75,0) (-0.5,1) (0,0);
-	TERM straight := (-0.25,0) (0,1) (0.25,0);
-	TERM left := (0,0) (0.5,1) (0.75,0);
-	TERM hardleft := (0.5,0) (1,1) (1.25,1);
+	TERM hardright := (0.6, 0) (0.75, 1) (1, 1);
+	TERM right := (0.5, 0) (0.6, 1) (0.75, 0);
+	TERM straight := (0.4, 0) (0.5, 1) (0.6, 0);
+	TERM left := (0.25, 0) (0.4, 1) (0.5, 0);
+	TERM hardleft := (0, 1) (0.25, 1) (0.4, 0);
 	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
 	DEFAULT := 0.5;		// Default value is 0.5 (if no rule activates defuzzifier)
 END_DEFUZZIFY

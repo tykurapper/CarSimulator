@@ -58,7 +58,7 @@ public class StraightTurningPoint extends TurningPoint{
 	}
 	
 	public double getDeviation(float x, float y){
-		return (distanceFrom(x, y, lineLeft) / distanceFrom(x, y, lineRight));
+		return (distanceFrom(x, y, lineLeft) / (distanceFrom(x, y, lineLeft) + distanceFrom(x, y, lineRight)));
 	}
 	
 	public void render(Graphics g){

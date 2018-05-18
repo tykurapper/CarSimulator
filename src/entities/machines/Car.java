@@ -120,7 +120,7 @@ public class Car extends Machine{
 //				previous = null;
 //			}
 			if((x - queue2.peek().Start.getX())*(x - queue2.peek().Start.getX())+(y - queue2.peek().Start.getY())*(y - queue2.peek().Start.getY()) < TurningPoint.DEFAULT_RADIUS*TurningPoint.DEFAULT_RADIUS)
-				deviation = 1;
+				deviation = 0.5;
 			else
 				deviation = queue2.peek().getDeviation(x, y);
 			lightstatus = queue2.peek().getLightStatus();
@@ -149,29 +149,29 @@ public class Car extends Machine{
 			//System.out.println(fuzzyspeed.getValue((float)2.072, 0.1506, 61.19));
 //			steer(steervalue);
 			if(speed > 0){
-			if(steervalue > 0.67)
+			if(steervalue <= 0.325)
 					hardleft();
-			else if(0.167 < steervalue && steervalue <= 0.67)
-				if(lastvalue > 0.67)
-					right();
-				else
+			else if(0.45 >= steervalue && steervalue >= 0.325)
+//				if(lastvalue < 0.325)
+//					right();
+//				else
 					left();
-			else if(steervalue >= -0.167 && steervalue <= 0.167)
+			else if(steervalue <= 0.55 && steervalue >= 0.45)
 			{
 					
-				if(lastvalue < -0.167)
-					hardleft();
-				else if(lastvalue > 0.167)
-					hardright();
+//				if(lastvalue > 0.55)
+//					hardleft();
+//				else if(lastvalue < 0.45)
+//					hardright();
 //				else setSpeed(NORMAL);
 //					steer(0);
 			}
-			else if(-0.67 <= steervalue && steervalue < -0.167)
-				if(lastvalue < -0.67)
-					left();
-				else
+			else if(0.55 <= steervalue && steervalue < 0.675)
+//				if(lastvalue > 0.675)
+//					left();
+//				else
 					right();
-			else if(steervalue < -0.67)
+			else if(steervalue >  0.675)
 					hardright();
 			}
 			foward(speed);
