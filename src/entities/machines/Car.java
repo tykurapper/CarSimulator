@@ -124,6 +124,8 @@ public class Car extends Machine{
 				{
 					deviation = 0.5;
 					lastDeviation = 0.5;
+					Direction targetDir = new Direction((float)((queue2.peek().Center.getX()-x)/Math.sqrt((queue2.peek().Center.getX()-x)*(queue2.peek().Center.getX()-x)+(queue2.peek().Center.getY()-y)*(queue2.peek().Center.getY()-y))), (float)((queue2.peek().Center.getY()-y)/Math.sqrt((queue2.peek().Center.getX()-x)*(queue2.peek().Center.getX()-x)+(queue2.peek().Center.getY()-y)*(queue2.peek().Center.getY()-y))));
+					turnToDir(targetDir);
 				}
 			else
 				{
@@ -184,13 +186,19 @@ public class Car extends Machine{
 				System.out.println("Came");
 				previous = queue2.peek();
 				queue2.remove();
-				if(!queue2.isEmpty())
-				setDirection(new Direction((float)((queue2.peek().Center.getX()-x)/Math.sqrt((queue2.peek().Center.getX()-x)*(queue2.peek().Center.getX()-x)+(queue2.peek().Center.getY()-y)*(queue2.peek().Center.getY()-y))), (float)((queue2.peek().Center.getY()-y)/Math.sqrt((queue2.peek().Center.getX()-x)*(queue2.peek().Center.getX()-x)+(queue2.peek().Center.getY()-y)*(queue2.peek().Center.getY()-y)))));
+//				if(!queue2.isEmpty())
+//				setDirection(new Direction((float)((queue2.peek().Center.getX()-x)/Math.sqrt((queue2.peek().Center.getX()-x)*(queue2.peek().Center.getX()-x)+(queue2.peek().Center.getY()-y)*(queue2.peek().Center.getY()-y))), (float)((queue2.peek().Center.getY()-y)/Math.sqrt((queue2.peek().Center.getX()-x)*(queue2.peek().Center.getX()-x)+(queue2.peek().Center.getY()-y)*(queue2.peek().Center.getY()-y)))));
 			}
 		}
 		else{
 			carStop();
 		}	
+	}
+	private double angleTo(Direction targetDir){
+		return Math.atan2(direction.getX()*targetDir.getY() - direction.getY()*targetDir.getX(), direction.getX()*targetDir.getX() + direction.getY()*targetDir.getY() );
+	}
+	private void turnToDir(Direction targetDir){
+		steer(angleTo(targetDir)/(1.2*Math.PI));
 	}
 	
 	public void setDirection(Direction direction) {
