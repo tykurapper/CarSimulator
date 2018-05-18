@@ -198,7 +198,7 @@ public class Car extends Machine{
 		return Math.atan2(direction.getX()*targetDir.getY() - direction.getY()*targetDir.getX(), direction.getX()*targetDir.getX() + direction.getY()*targetDir.getY() );
 	}
 	private void turnToDir(Direction targetDir){
-		steer(angleTo(targetDir)/(1.2*Math.PI));
+		steer(angleTo(targetDir)/(1*Math.PI));
 	}
 	
 	public void setDirection(Direction direction) {
