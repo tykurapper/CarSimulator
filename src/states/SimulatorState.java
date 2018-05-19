@@ -178,9 +178,10 @@ public class SimulatorState extends State{
 	
 	@Override
 	public void render(Handler handler, Graphics g) {
-		handler.getSimulator().getMap().render(g);
+//		handler.getSimulator().getMap().render(g);
 		if(path != null)
 			handler.getSimulator().getMap().renderPath(g, path);
+		handler.getSimulator().getMap().render(g);
 //		if(this.handler == null)
 //			setHandler(handler);
 		//stack.peek().render(g);

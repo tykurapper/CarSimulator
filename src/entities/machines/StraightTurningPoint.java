@@ -2,6 +2,7 @@ package entities.machines;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Polygon;
 
 import direction.Direction;
 import path.Point;
@@ -66,7 +67,20 @@ public class StraightTurningPoint extends TurningPoint{
 		lineRight.draw(g, Color.BLACK);
 	}
 	public void renderPath(Graphics g){
-		lineLeft.draw(g, Color.RED);
-		lineRight.draw(g, Color.BLUE);
-	}
+//		lineLeft.draw(g, Color.RED);
+//		lineRight.draw(g, Color.BLUE);
+		int pathx[] = new int[4];
+		int pathy[] = new int[4];
+		pathx[0] = (int) lineLeft.getA().getX();
+		pathx[1] = (int) lineLeft.getB().getX();
+		pathx[2] = (int) lineRight.getB().getX();
+		pathx[3] = (int) lineRight.getA().getX();
+		pathy[0] = (int) lineLeft.getA().getY();
+		pathy[1] = (int) lineLeft.getB().getY();
+		pathy[2] = (int) lineRight.getB().getY();
+		pathy[3] = (int) lineRight.getA().getY();
+		Polygon p = new Polygon(pathx, pathy, 4);
+		g.setColor(Color.WHITE);
+		g.fillPolygon(p);
+ 	}
 }
